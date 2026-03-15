@@ -1,18 +1,31 @@
 name: Build APK
-
-on:
-  push:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Build with Buildozer
-      uses: ArtemSBulgakov/buildozer-action@v1
-      with:
-        buildozer_version: stable
-        # Această linie de mai jos repară eroarea chown:
-        command: buildozer android debug
+      - name: Get Date
+        id: get-date
+        run: |
+          echo "date=$(date -u +'%Y%m%d')" >> $GITHUB_OUTPUT
+
+      - name: Cache Buildozer
+        uses: actions/cache@v4
+        with:
+          path: .buildozer
+          key: ${{ runner.os }}-buildozer-${{ steps.get-date.outputs.date }}
+
+      - name: Build with Buildozer
+        uses: sislis/buildozer-action@v2.1
+        with:
+          command: buildozer android debug
+          buildozer_version: master
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: bin/*.apk

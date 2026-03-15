@@ -9,14 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Build with Buildozer
       uses: ArtemSBulgakov/buildozer-action@v1
       with:
         buildozer_version: stable
-        
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: package
-        path: bin/*.apk
+        # Această linie de mai jos repară eroarea chown:
+        command: buildozer android debug

@@ -28,3 +28,8 @@ android.archs = armeabi-v7a, arm64-v8a
 # Nivelul de logare (pentru a vedea exact unde se blochează dacă apare ceva)
 log_level = 2
 warn_on_root = 1
+# ... (restul setărilor de mai sus)
+
+[buildozer]
+# (aici poți pune și alte setări buildozer dacă ai)
+warn_on_root = 0

@@ -10,8 +10,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build with Buildozer
+        env:
+          # Această linie este cheia: îi spune lui Buildozer să nu mai ceară confirmări
+          BUILDOZER_ALLOW_ROOT: 1
         run: |
-          # Containerul are totul gata instalat
           buildozer android clean
           buildozer android debug
 
